@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="es" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carta de San Valentín</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&amp;family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet">
+  <style>
+    .font-cursive { font-family: 'Great Vibes', cursive; }
+    .font-elegant { font-family: 'Cormorant Garamond', serif; }
+    
+    .envelope {
+      perspective: 1000px;
+      cursor: pointer;
+      position: relative;
+    }
+    
+    .envelope-body {
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+    
+    .envelope:hover .envelope-body {
+      transform: translateY(-5px);
+    }
+    
+    .flap {
+      transform-origin: top center;
+      transition: transform 0.6s ease;
+    }
+    
+    .envelope.open .flap {
+      transform: rotateX(180deg);
+    }
+    
+    .letter {
+      transition: transform 0.6s ease 0.3s, opacity 0.4s ease 0.3s;
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    .envelope:not(.open) .letter {
+      transform: translateY(50px);
+      opacity: 0;
+    }
+    
+    .heart-decoration {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    .heart-decoration:nth-child(2) { animation-delay: 0.5s; }
+    .heart-decoration:nth-child(3) { animation-delay: 1s; }
+    .heart-decoration:nth-child(4) { animation-delay: 1.5s; }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(5deg); }
+    }
+    
+    @keyframes sparkle {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+    
+    .sparkle {
+      animation: sparkle 2s ease-in-out infinite;
+    }
+    
+    .sparkle:nth-child(odd) { animation-delay: 0.3s; }
+    .sparkle:nth-child(even) { animation-delay: 0.7s; }
+    
+    .seal {
+      transition: transform 0.3s ease;
+    }
+    
+    .envelope:hover .seal {
+      transform: scale(1.1) rotate(10deg);
+    }
+    
+    .envelope.open .seal {
+      opacity: 0;
+      transform: scale(0);
+    }
+
+    .glow-effect {
+      filter: drop-shadow(0 0 15px rgba(157, 78, 221, 0.6)) drop-shadow(0 0 8px rgba(196, 30, 58, 0.4));
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+<audio id="music">
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
+
+  <div id="app-container" class="w-full h-full flex items-center justify-center overflow-auto p-8" style="background: linear-gradient(135deg, #1a0a0a 0%, #2d1515 50%, #1a0a0a 100%);"><!-- Decorative elements -->
+   <div class="fixed inset-0 pointer-events-none overflow-hidden"><!-- Floating hearts -->
+    <svg class="heart-decoration absolute top-10 left-10 w-8 h-8 opacity-30" viewbox="0 0 24 24" fill="#8B0A1A"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+    </svg>
+    <svg class="heart-decoration absolute top-20 right-20 w-6 h-6 opacity-20" viewbox="0 0 24 24" fill="#9D4EDD"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+    </svg>
+    <svg class="heart-decoration absolute bottom-20 left-20 w-10 h-10 opacity-25" viewbox="0 0 24 24" fill="#E53E3E"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+    </svg>
+    <svg class="heart-decoration absolute bottom-32 right-16 w-5 h-5 opacity-20" viewbox="0 0 24 24" fill="#9D4EDD"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+    </svg><!-- Sparkles -->
+    <div class="sparkle absolute top-16 left-1/4 w-3 h-3 bg-purple-300 rounded-full"></div>
+    <div class="sparkle absolute top-32 right-1/3 w-2 h-2 bg-rose-300 rounded-full"></div>
+    <div class="sparkle absolute bottom-24 left-1/3 w-3 h-3 bg-purple-200 rounded-full"></div>
+    <div class="sparkle absolute bottom-40 right-1/4 w-2 h-2 bg-rose-200 rounded-full"></div>
+   </div><!-- Main envelope -->
+   <div class="envelope" id="envelope" onclick="toggleEnvelope()">
+    <div class="envelope-body relative glow-effect"><!-- Envelope back -->
+     <div class="relative w-80 h-52 rounded-lg shadow-2xl" style="background: linear-gradient(145deg, #A71930 0%, #7D142E 50%, #5D0E24 100%); border: 3px solid #9D4EDD;"><!-- Sender and recipient labels -->
+      <div class="absolute top-4 left-6 font-elegant text-xs" style="color: #FFB6D9;">
+       DE: Victoria
+      </div>
+      <div class="absolute top-4 right-6 font-elegant text-xs" style="color: #FFB6D9;">
+       PARA: Ian
+      </div><!-- Decorative border pattern -->
+      <div class="absolute inset-2 border-2 border-purple-400/50 rounded-md pointer-events-none"></div>
+      <div class="absolute inset-4 border border-purple-300/30 rounded-md pointer-events-none"></div><!-- Corner flourishes with purple -->
+      <svg class="absolute top-2 left-2 w-8 h-8 text-purple-400" viewbox="0 0 24 24" fill="currentColor"><path d="M3 3c0 4 2 8 6 10-4 2-6 6-6 10 4 0 8-2 10-6 2 4 6 6 10 6 0-4-2-8-6-10 4-2 6-6 6-10-4 0-8 2-10 6-2-4-6-6-10-6z" transform="scale(0.5) translate(0,0)" />
+      </svg>
+      <svg class="absolute top-2 right-2 w-8 h-8 text-purple-400 rotate-90" viewbox="0 0 24 24" fill="currentColor"><path d="M3 3c0 4 2 8 6 10-4 2-6 6-6 10 4 0 8-2 10-6 2 4 6 6 10 6 0-4-2-8-6-10 4-2 6-6 6-10-4 0-8 2-10 6-2-4-6-6-10-6z" transform="scale(0.5) translate(24,0)" />
+      </svg>
+      <svg class="absolute bottom-2 left-2 w-8 h-8 text-purple-400 -rotate-90" viewbox="0 0 24 24" fill="currentColor"><path d="M3 3c0 4 2 8 6 10-4 2-6 6-6 10 4 0 8-2 10-6 2 4 6 6 10 6 0-4-2-8-6-10 4-2 6-6 6-10-4 0-8 2-10 6-2-4-6-6-10-6z" transform="scale(0.5) translate(0,24)" />
+      </svg>
+      <svg class="absolute bottom-2 right-2 w-8 h-8 text-purple-400 rotate-180" viewbox="0 0 24 24" fill="currentColor"><path d="M3 3c0 4 2 8 6 10-4 2-6 6-6 10 4 0 8-2 10-6 2 4 6 6 10 6 0-4-2-8-6-10 4-2 6-6 6-10-4 0-8 2-10 6-2-4-6-6-10-6z" transform="scale(0.5) translate(24,24)" />
+      </svg><!-- Letter inside -->
+      <div class="letter absolute inset-4 top-6 rounded-md shadow-inner flex flex-col items-center justify-center p-6 text-center overflow-y-auto" style="background: linear-gradient(to bottom, #5D0E24 0%, #722F37 50%, #8B1538 100%); position: relative; border: 2px solid #9D4EDD;"><!-- Paw print background pattern -->
+       <svg class="absolute inset-0 w-full h-full pointer-events-none" viewbox="0 0 400 280" preserveaspectratio="none" style="fill: #E8C4D0; opacity: 0.25;"><!-- Paw print 1 --> <g transform="translate(60, 50)">
+         <circle cx="0" cy="0" r="12" />
+         <circle cx="-24" cy="-22" r="9" />
+         <circle cx="24" cy="-22" r="9" />
+         <circle cx="-32" cy="8" r="8" />
+         <circle cx="32" cy="8" r="8" />
+        </g> <!-- Paw print 2 --> <g transform="translate(330, 100)">
+         <circle cx="0" cy="0" r="11" />
+         <circle cx="-22" cy="-20" r="8" />
+         <circle cx="22" cy="-20" r="8" />
+         <circle cx="-30" cy="7" r="7" />
+         <circle cx="30" cy="7" r="7" />
+        </g> <!-- Paw print 3 --> <g transform="translate(80, 230)">
+         <circle cx="0" cy="0" r="12" />
+         <circle cx="-24" cy="-22" r="9" />
+         <circle cx="24" cy="-22" r="9" />
+         <circle cx="-32" cy="8" r="8" />
+         <circle cx="32" cy="8" r="8" />
+        </g> <!-- Paw print 4 --> <g transform="translate(320, 250)">
+         <circle cx="0" cy="0" r="11" />
+         <circle cx="-22" cy="-20" r="8" />
+         <circle cx="22" cy="-20" r="8" />
+         <circle cx="-30" cy="7" r="7" />
+         <circle cx="30" cy="7" r="7" />
+        </g> <!-- Paw print 5 --> <g transform="translate(200, 150)">
+         <circle cx="0" cy="0" r="10" />
+         <circle cx="-20" cy="-18" r="7" />
+         <circle cx="20" cy="-18" r="7" />
+         <circle cx="-28" cy="6" r="6" />
+         <circle cx="28" cy="6" r="6" />
+        </g>
+       </svg>
+       <div class="w-full flex flex-col relative z-10 gap-3"><!-- Decorative top -->
+        <div class="flex justify-center flex-shrink-0">
+         <svg class="w-12 h-6 text-red-400" viewbox="0 0 48 24" fill="currentColor"><path d="M24 20c-6 0-10-4-12-8 2-4 6-8 12-8s10 4 12 8c-2 4-6 8-12 8z" opacity="0.4" /> <circle cx="12" cy="12" r="3" opacity="0.6" /> <circle cx="36" cy="12" r="3" opacity="0.6" /> <path d="M0 12 Q12 0 24 12 Q36 24 48 12" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.5" />
+         </svg>
+        </div><!-- Message -->
+        <div class="flex-1 overflow-y-auto">
+         <p id="card-message" class="font-elegant text-sm italic leading-relaxed" style="color: #F5D5E0; white-space: pre-wrap; word-wrap: break-word;">Salgo de mi casa y veo cómo las parejas compran cosas para pasar San Valentín juntos y de solo ver eso, me da envidia saber que yo no podré pasarlo contigo o darte algo físicamente. Pero no pienso quedarme sin hacerte nada, así que a mi manera te hice esto... Aunque hoy no pueda tomarte de la mano, ni darte ese regalo que tengo guardado en mi mente, quiero que sepas que mi corazón está contigo. A veces la distancia se siente pesada, ya sean los kilómetros o mi mamá (jajajaja), pero luego me acuerdo de tus preciosos ojos, de tus labios (¡ufff!), de la forma en la que sonríes (la forma de tus labios), de tus lunares y de cómo me miras... Bueno, ya le paro porque la verdad es que me encanta absolutamente todo de ti. Amo cada parte de tu ser, incluso todas esas cosas malas que dices que me podrían alejar de ti. Pues déjame decirte que TE AMO, así con mayúsculas para que me entiendas. Nada de eso me va a alejar, porque te elijo a ti con todo lo que eres. Esta carta es mi forma de abrazarte, de decirte que te pienso en cada segundo y que aunque hoy no estemos juntos no pasa nada habrá más san valentín en el que un día ya la podamos pasar juntos, y si me dieran a elegir, te elijo a ti por encima de cualquier plan perfecto. Gracias por ser mi lugar seguro y por hacerme sentir tan querida, incluso de lejos. Espero nuestro momento pronto. Y otra cosa, no usé la IA para que no empieces con tus cosas, eso lo pensé yo, y si me tardé, me pasé días pensando qué hacerte y escribirte. TE AMOOO MI わたしのこねこ</p>
+        </div><!-- Signature -->
+        <div class="flex-shrink-0 mt-2">
+         <p id="signature" class="font-cursive text-xl" style="color: #FFB6D9;">Con todo mi amor 💜❤️</p>
+        </div><!-- Decorative bottom -->
+        <div class="flex justify-center flex-shrink-0 mt-1">
+         <svg class="w-16 h-4" viewbox="0 0 64 16"><path d="M0 8 Q16 0 32 8 Q48 16 64 8" fill="none" stroke="#9D4EDD" stroke-width="2" opacity="0.7" /> <circle cx="32" cy="8" r="2.5" fill="#9D4EDD" opacity="0.7" />
+         </svg>
+        </div>
+       </div>
+      </div>
+     </div><!-- Envelope flap -->
+     <div class="flap absolute -top-0 left-0 w-80 h-28 origin-top" style="z-index: 10;">
+      <svg class="w-full h-full drop-shadow-lg" viewbox="0 0 320 112" preserveaspectratio="none"><defs>
+        <lineargradient id="flapGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+         <stop offset="0%" style="stop-color:#C41E3A" />
+         <stop offset="100%" style="stop-color:#7D142E" />
+        </lineargradient>
+        <lineargradient id="flapInner" x1="0%" y1="100%" x2="0%" y2="0%">
+         <stop offset="0%" style="stop-color:#5D0E24" />
+         <stop offset="100%" style="stop-color:#A71930" />
+        </lineargradient>
+       </defs> <!-- Flap outer --> <path d="M0 0 L160 100 L320 0 L320 8 L160 108 L0 8 Z" fill="url(#flapGradient)" /> <!-- Flap inner (visible when open) --> <path d="M8 4 L160 96 L312 4" fill="url(#flapInner)" /> <!-- Decorative line on flap --> <path d="M40 20 L160 80 L280 20" fill="none" stroke="#9D4EDD" stroke-width="2" opacity="0.5" />
+      </svg>
+     </div><!-- Heart seal -->
+     <div class="seal absolute -bottom-4 left-1/2 -translate-x-1/2 w-16 h-16 rounded-full shadow-lg flex items-center justify-center transition-all duration-500" style="background: radial-gradient(circle at 30% 30%, #E53E3E 0%, #C41E3A 50%, #7D142E 100%); z-index: 20; border: 3px solid #9D4EDD; box-shadow: 0 0 20px rgba(157, 78, 221, 0.6);">
+      <div class="absolute inset-1 rounded-full border border-purple-300/50"></div>
+      <svg class="w-8 h-8 text-purple-300" viewbox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+      </svg>
+     </div><!-- Instruction text -->
+     <p id="instruction" class="absolute -bottom-12 left-1/2 -translate-x-1/2 font-elegant text-purple-300 text-sm whitespace-nowrap transition-opacity duration-500" style="font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">✨ Toca para abrir ✨</p>
+    </div>
+   </div>
+</div>
+
+
+<script>
+
+
+    const defaultConfig = {
+      card_message: "Salgo de mi casa y veo cómo las parejas compran cosas para pasar San Valentín juntos y de solo ver eso, me da envidia saber que yo no podré pasarlo contigo o darte algo físicamente. Pero no pienso quedarme sin hacerte nada, así que a mi manera te hice esto...\n\nAunque hoy no pueda tomarte de la mano, ni darte ese regalo que tengo guardado en mi mente, quiero que sepas que mi corazón está contigo. A veces la distancia se siente pesada, ya sean los kilómetros o mi mamá (jajajaja), pero luego me acuerdo de tus preciosos ojos, de tus labios (¡ufff!), de la forma en la que sonríes (la forma de tus labios), de tus lunares y de cómo me miras... Bueno, ya le paro porque la verdad es que me encanta absolutamente todo de ti. Amo cada parte de tu ser, incluso todas esas cosas malas que dices que me podrían alejar de ti. Pues déjame decirte que TE AMO, así con mayúsculas para que me entiendas. Nada de eso me va a alejar, porque te elijo a ti con todo lo que eres.\n\nEsta carta es mi forma de abrazarte, de decirte que te pienso en cada segundo y que aunque hoy no estemos juntos no pasa nada habrá más san valentín en el que un día ya la podamos pasar juntos, y si me dieran a elegir, te elijo a ti por encima de cualquier plan perfecto. Gracias por ser mi lugar seguro y por hacerme sentir tan querida, incluso de lejos.\n\nEspero nuestro momento pronto.\n\nY otra cosa, no usé la IA para que no empieces con tus cosas, eso lo pensé yo, y si me tardé, me pasé días pensando qué hacerte y escribirte.\n\nTE AMOOO MI わたしのこねこ",
+      signature: "Con todo mi amor 💜❤️",
+      background_color: "#1a0a0a",
+      envelope_color: "#A71930",
+      text_color: "#F5D5E0",
+      accent_color: "#9D4EDD",
+      seal_color: "#C41E3A"
+    };
+    
+    let isOpen = false;
+
+    
+   function toggleEnvelope() {
+  const envelope = document.getElementById('envelope');
+  const instruction = document.getElementById('instruction');
+  const music = document.getElementById('music');
+  
+  isOpen = !isOpen;
+  
+  if (isOpen) {
+    envelope.classList.add('open');
+    instruction.textContent = '✨ Toca para cerrar ✨';
+    music.currentTime = 75; // empieza donde canta Natalia
+    music.play();
+    
+  } else {
+    envelope.classList.remove('open');
+    instruction.textContent = '✨ Toca para abrir ✨';
+    music.pause();
+    music.currentTime = 75;
+  }
+}
+
+ 
+    async function onConfigChange(config) {
+      const messageEl = document.getElementById('card-message');
+      const signatureEl = document.getElementById('signature');
+      
+      if (messageEl) {
+        messageEl.textContent = config.card_message || defaultConfig.card_message;
+      }
+      
+      if (signatureEl) {
+        signatureEl.textContent = config.signature || defaultConfig.signature;
+      }
+    }
+    
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => config.envelope_color || defaultConfig.envelope_color,
+            set: (value) => {
+              config.envelope_color = value;
+              window.elementSdk.setConfig({ envelope_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => config.accent_color || defaultConfig.accent_color,
+            set: (value) => {
+              config.accent_color = value;
+              window.elementSdk.setConfig({ accent_color: value });
+            }
+          },
+          {
+            get: () => config.seal_color || defaultConfig.seal_color,
+            set: (value) => {
+              config.seal_color = value;
+              window.elementSdk.setConfig({ seal_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+    
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["card_message", config.card_message || defaultConfig.card_message],
+        ["signature", config.signature || defaultConfig.signature]
+      ]);
+    }
+    
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cd8fbefa7ecd930',t:'MTc3MTAzNDU1NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+
